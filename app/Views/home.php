@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('title') ?>
-Dashboard
+PASTI (Prestasi Aktif Mahasiswa Teknologi Informasi)
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -68,14 +68,10 @@ Dashboard
                  w-3 h-3 bg-[#0D87B0] rounded-full shadow-lg"></span>
                 </div>
 
-
-
                 <img
-                    src="<?= base_url('assets/images/hero-pasti.png') ?>"
+                    src="<?= base_url('assets/images/hero_sec.png') ?>"
                     alt="Mahasiswa PASTI"
                     class="relative z-10 w-96 md:w-[520px] drop-shadow-2xl" />
-
-
 
             </div>
 
@@ -91,107 +87,54 @@ Dashboard
                     <strong>PASTI</strong> adalah salah satu prgram kerja dari <span class="italic">Himpunanan Mahasiswa Jurusan Teknologi Informasi</span> Bidang I, Daftar seminar dan menjadi peserta aktif PASTI sekarang 
                 </p>
 
-                <div class="mt-8">
-                    <a href="<?= base_url('pendaftaran') ?>"
-                        class="inline-flex items-center gap-3 bg-[#0D87B0] hover:bg-[#0D588F]
-          text-white font-medium px-8 py-3 rounded-full transition shadow-lg">
-                        Daftar Sekarang
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
+              <div class="mt-10 flex flex-wrap gap-4 justify-center">
 
-                </div>
-            </div>
+    <!-- SECONDARY CTA -->
+    <a href="<?= base_url('pendaftaran') ?>"
+       class="group inline-flex items-center gap-3
+              px-8 py-3 rounded-full
+              border border-[#0D87B0]/60
+              text-[#0D87B0] font-medium
+              backdrop-blur-sm
+              hover:bg-[#0D87B0] hover:text-white
+              hover:shadow-[0_10px_30px_rgba(13,135,176,0.35)]
+              transition-all duration-300">
 
-        </div>
-    </div>
-</section>
+        <span>Daftar Seminar</span>
 
-<section class="relative overflow-hidden">
-    <!-- Background -->
-    <div class="bg-gradient-to-r from-[#0D87B0] to-[#0D588F] rounded-r-[80px] py-20">
-        <div class="max-w-7xl mx-auto px-6">
+        <i class="fa-solid fa-calendar-days
+                  text-sm opacity-70
+                  group-hover:translate-x-1
+                  transition-transform"></i>
+    </a>
 
-            <!-- Title -->
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-14">
-                Benefit Program
-            </h2>
+    <!-- PRIMARY CTA -->
+    <a href="<?= base_url('pendaftaran/anggota/') ?>"
+       class="group inline-flex items-center gap-3
+              px-9 py-3 rounded-full
+              bg-gradient-to-r from-[#0D87B0] to-[#0D588F]
+              text-white font-semibold
+              shadow-lg shadow-[#0D87B0]/40
+              hover:shadow-xl hover:shadow-[#0D87B0]/60
+              hover:scale-[1.03]
+              transition-all duration-300">
 
-            <!-- Cards -->
-            <div class="grid md:grid-cols-2 gap-8">
+        <span>Daftar Anggota</span>
 
-                <!-- CARD 01 -->
-                <div
-                    class="bg-indigo-900 text-white rounded-3xl p-10 flex gap-6 items-start
-                       transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <i class="fa-solid fa-arrow-right
+                  group-hover:translate-x-1
+                  transition-transform"></i>
+    </a>
 
-                    <div
-                        class="bg-white text-[#f97316] w-24 h-14 flex items-center justify-center
-                           rounded-full shadow-inner ring-2 ring-white/60">
-                        <i class="fa-solid fa-1 text-xl font-bold"></i>
-                    </div>
-
-                    <p class="leading-relaxed text-lg">
-                        Mendapatkan sertifikasi internasional yang membuka peluang karir
-                        yang lebih luas.
-                    </p>
-                </div>
-
-
-                <div
-                    class="bg-white rounded-3xl p-10 flex gap-6 items-start shadow-lg
-                       md:translate-x-10 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-
-                    <div
-                        class="bg-[#f97316] text-white w-24 h-14 flex items-center justify-center
-                           rounded-full shadow-inner ring-2 ring-rose-300">
-                        <i class="fa-solid fa-2 text-xl font-bold"></i>
-                    </div>
-
-                    <p class="leading-relaxed text-lg text-slate-700">
-                        Berkesempatan menjadi Hustler, Hipster, dan Hacker dengan
-                        peningkatan hard skill dan soft skill melalui pelatihan.
-                    </p>
-                </div>
-
-                <!-- CARD 03 (ZIG-ZAG KIRI) -->
-                <div
-                    class="bg-white rounded-3xl p-10 flex gap-6 items-start shadow-lg
-                       md:-translate-x-10 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-
-                    <div
-                        class="bg-[#f97316] text-white w-24 h-14 flex items-center justify-center
-                           rounded-full shadow-inner ring-2 ring-rose-300">
-                        <i class="fa-solid fa-3 text-xl font-bold"></i>
-                    </div>
-
-                    <p class="leading-relaxed text-lg text-slate-700">
-                        Menjadikan talenta muda sebagai digital talent yang dibutuhkan
-                        industri hingga level internasional.
-                    </p>
-                </div>
-
-                <!-- CARD 04 -->
-                <div
-                    class="bg-indigo-900 text-white rounded-3xl p-10 flex gap-6 items-start
-                       transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-
-                    <div
-                        class="bg-white text-[#f97316] w-24 h-14 flex items-center justify-center
-                           rounded-full shadow-inner ring-2 ring-white/60">
-                        <i class="fa-solid fa-4 text-xl font-bold"></i>
-                    </div>
-
-                    <p class="leading-relaxed text-lg">
-                        Memperluas networking serta mendapatkan reward berupa
-                        regional educational trip.
-                    </p>
-                </div>
+</div>
 
             </div>
 
         </div>
     </div>
 </section>
+
+
 
 <section class="relative py-24 bg-slate-50 overflow-hidden">
 
@@ -204,16 +147,16 @@ Dashboard
         <!-- TITLE -->
         <div class="max-w-2xl mb-16">
             <h2 class="text-4xl md:text-5xl font-bold text-[#0D588F]">
-                Testimoni & Dampak
+                Ulasan PASTI
             </h2>
             <p class="mt-4 text-slate-600">
-                Dampak nyata yang dirasakan mahasiswa setelah mengikuti program
+             Apa kata Mahasiswa terkait
                 <strong>PASTI</strong>.
             </p>
         </div>
 
         <!-- STATS -->
-        <div class="grid md:grid-cols-3 gap-8 mb-20">
+        <!-- <div class="grid md:grid-cols-3 gap-8 mb-20">
             <div class="bg-white rounded-3xl p-8 text-center shadow-lg">
                 <i class="fa-solid fa-user-graduate text-4xl text-[#0D87B0] mb-4"></i>
                 <h3 class="text-4xl font-bold text-[#0D588F] counter" data-target="500">0</h3>
@@ -231,7 +174,7 @@ Dashboard
                 <h3 class="text-4xl font-bold text-[#0D588F] counter" data-target="90" data-suffix="%">0</h3>
                 <p class="mt-2 text-slate-600">Siap Dunia Profesional</p>
             </div>
-        </div>
+        </div> -->
 
         <!-- TESTIMONIALS -->
         <div id="testimonial-wrapper"

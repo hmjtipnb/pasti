@@ -18,7 +18,10 @@ class RegistrationModel extends Model
         'telp',
         'email',
         'sesi',
+        
     ];
 
-    protected $useTimestamps = false;
+    protected $createdField  = 'created_at';
+protected $updatedField  = 'updated_at';
+    protected $useTimestamps = true;
 }

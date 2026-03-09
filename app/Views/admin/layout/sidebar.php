@@ -13,7 +13,7 @@
     </div>
 
     <!-- MENU -->
-    <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+    <nav class="flex-1 px-3 py-4 space-y-1 text-[15px]">
 
         <!-- Dashboard -->
         <a href="<?= base_url('admin/dashboard') ?>"
@@ -35,6 +35,27 @@
                 NEW
             </span>
         </a>
+
+<!-- Daftar Absensi -->
+<a href="<?= base_url('admin/peserta/absensi') ?>"
+   class="flex items-center justify-between gap-4 px-4 py-3 rounded-xl font-medium transition
+   <?= (isset($activeMenu) && $activeMenu === 'absensi') ? 'bg-white text-[#00345e] shadow-inner' : 'text-gray-200 hover:bg-white/10' ?>">
+    <div class="flex items-center gap-4">
+        <i class="fa-solid fa-file-pen w-5 text-center"></i>
+        <span>Daftar Absensi</span>
+    </div>
+</a>
+
+<!-- REVIEW -->
+<a href="<?= base_url('admin/review') ?>"
+   class="flex items-center justify-between gap-4 px-4 py-3 rounded-xl font-medium transition
+   <?= (isset($activeMenu) && $activeMenu === 'review') ? 'bg-white text-[#00345e] shadow-inner' : 'text-gray-200 hover:bg-white/10' ?>">
+    <div class="flex items-center gap-4">
+        <i class="fa-solid fa-star w-5 text-center"></i>
+        <span>Review</span>
+    </div>
+</a>
+
 
 
     </nav>

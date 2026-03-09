@@ -3,12 +3,27 @@
 namespace App\Controllers;
 
 use App\Models\RegistrationModel;
+use App\Models\Seminar\PendaftaranSettingsModel;
 
 class Pendaftaran extends BaseController
 {
+        protected $settingsModel;
+
+    public function __construct()
+    {
+        $this->settingsModel = new PendaftaranSettingsModel();
+    }
     public function index()
     {
-        return view('registrasi/index');
+        // Ambil status online/offline
+        $settings = $this->settingsModel->first();
+        $onlineAktif  = $settings['online'] ?? 0;
+        $offlineAktif = $settings['offline'] ?? 0;
+
+        return view('seminar/index', [
+            'onlineAktif'  => $onlineAktif,
+            'offlineAktif' => $offlineAktif
+        ]);
     }
 
     public function store()
@@ -80,7 +95,7 @@ class Pendaftaran extends BaseController
 
     public function success()
     {
-        return view('registrasi/success', [
+        return view('seminar/success', [
             'title' => 'Pendaftaran Berhasil'
         ]);
     }

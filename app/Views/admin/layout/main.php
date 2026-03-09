@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?? 'Admin Panel' ?></title>
-
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png"
+          href="<?= base_url('assets/icon/icon_1x1_pasti.svg') ?>">
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 

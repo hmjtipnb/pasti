@@ -4,6 +4,17 @@ $adminEmail = session()->get('admin_email');
 $initial    = strtoupper(substr($adminName, 0, 1));
 ?>
 
+<?php
+use App\Models\Seminar\SeminarSettingsModel;
+
+$settingsModel = new SeminarSettingsModel();
+$settings = $settingsModel->first();
+
+$onlineAktif  = $settings['online_aktif']  ?? 0;
+$offlineAktif = $settings['offline_aktif'] ?? 0;
+?>
+
+
 <header
     id="header"
     class="fixed top-0 left-0 w-full h-16 bg-white border-b border-gray-200

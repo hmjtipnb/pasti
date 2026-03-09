@@ -5,6 +5,26 @@
 
 
 <div class="overflow-x-auto bg-white rounded-2xl shadow-lg p-4">
+<div class="flex gap-4">
+    <!-- ONLINE -->
+    <form action="<?= base_url('admin/sesi-setting/toggle/online') ?>" method="post">
+        <?= csrf_field() ?>
+        <button type="submit" class="px-4 py-2 rounded font-semibold
+            <?= ($onlineAktif ?? 0) == 1 ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-200' ?>">
+            <?= ($onlineAktif ?? 0) == 1 ? 'Online Dibuka' : 'Online Ditutup' ?>
+        </button>
+    </form>
+
+    <!-- OFFLINE -->
+    <form action="<?= base_url('admin/sesi-setting/toggle/offline') ?>" method="post">
+        <?= csrf_field() ?>
+        <button type="submit" class="px-4 py-2 rounded font-semibold
+            <?= ($offlineAktif ?? 0) == 1 ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-200' ?>">
+            <?= ($offlineAktif ?? 0) == 1 ? 'Offline Dibuka' : 'Offline Ditutup' ?>
+        </button>
+    </form>
+</div>
+<br>
     <table id="usersTable" class="min-w-full divide-y divide-gray-200">
         <thead class="bg-[#00345e] text-white">
             <tr>
@@ -32,7 +52,7 @@
                 <td class="px-6 py-3"><?= esc($user['telp']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['email']) ?></td>
               <td class="px-6 py-3">
-    <span class="<?= $user['sesi'] === 'Offline' ? 'bg-purple-500 text-white px-2 py-1 rounded-full' : 'bg-blue-200 text-blue-800 px-2 py-1 rounded-full' ?>">
+    <span class="<?= $user['sesi'] === 'Offline' ? 'bg-[#f97316] text-white px-2 py-1 rounded-full' : 'bg-blue-200 text-blue-800 px-2 py-1 rounded-full' ?>">
         <?= esc($user['sesi']) ?>
     </span>
 </td>
