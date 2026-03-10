@@ -3,7 +3,6 @@
 <br>
 <?= $this->section('content') ?>
 
-
 <div class="overflow-x-auto bg-white rounded-2xl shadow-lg p-4">
 <div class="flex gap-4">
     <!-- ONLINE -->
@@ -23,6 +22,13 @@
             <?= ($offlineAktif ?? 0) == 1 ? 'Offline Dibuka' : 'Offline Ditutup' ?>
         </button>
     </form>
+
+    <!-- FILTER -->
+    <div class="ml-auto flex gap-2">
+        <a href="<?= base_url('admin/users') ?>" class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 font-semibold">Semua</a>
+        <a href="<?= base_url('admin/users?filter=online') ?>" class="px-4 py-2 rounded bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold">Online</a>
+        <a href="<?= base_url('admin/users?filter=offline') ?>" class="px-4 py-2 rounded bg-orange-100 text-orange-700 hover:bg-orange-200 font-semibold">Offline</a>
+    </div>
 </div>
 <br>
     <table id="usersTable" class="min-w-full divide-y divide-gray-200">
@@ -38,6 +44,7 @@
                 <th class="px-6 py-3 text-left">Email</th>
                 <th class="px-6 py-3 text-left">Sesi</th>
                 <th class="px-6 py-3 text-left">Tanggal Daftar</th>
+                <th class="px-6 py-3 text-left">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
@@ -58,11 +65,71 @@
 </td>
 
                 <td class="px-6 py-3"><?= esc($user['created_at']) ?></td>
+                <td class="px-6 py-3 flex gap-2">
+                    <!-- Edit Button (Session Only) -->
+                    <button onclick="editSesi('<?= $user['id'] ?>', '<?= $user['sesi'] ?>')" 
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <!-- Delete Button -->
+                    <a href="<?= base_url('admin/users/delete/'.$user['id']) ?>" 
+                       onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                       class="bg-red-600 hover:bg-red-700 text-white p-2 rounded transition">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
+
+<!-- Modal Edit Sesi -->
+<div id="editSesiModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl animate-fade-in-up">
+        <h3 class="text-xl font-bold mb-4 text-[#00345e]">Edit Sesi Peserta</h3>
+        <form action="<?= base_url('admin/users/updateSesi') ?>" method="post">
+            <?= csrf_field() ?>
+            <input type="hidden" name="id" id="editUserId">
+            <div class="mb-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Pilih Sesi</label>
+                <select name="sesi" id="editSesiSelect" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition font-semibold">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-[#00345e] text-white hover:bg-blue-800 transition font-semibold">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function editSesi(id, currentSesi) {
+        document.getElementById('editUserId').value = id;
+        document.getElementById('editSesiSelect').value = currentSesi;
+        document.getElementById('editSesiModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('editSesiModal').classList.add('hidden');
+    }
+
+    // Filter Logic in JS (Optional if server-side filtering is implemented)
+    // Here we'll implement simple row hiding for instant filter
+    const urlParams = new URLSearchParams(window.location.search);
+    const filter = urlParams.get('filter');
+    if (filter) {
+        const rows = document.querySelectorAll('#usersTable tbody tr');
+        rows.forEach(row => {
+            const sesi = row.children[8].innerText.trim();
+            if (filter === 'online' && sesi !== 'Online') row.style.display = 'none';
+            if (filter === 'offline' && sesi !== 'Offline') row.style.display = 'none';
+        });
+    }
+</script>
 
 <!-- Floating Download Button -->
 <button id="downloadExcel"

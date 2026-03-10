@@ -15,14 +15,20 @@ class Pendaftaran extends BaseController
     }
     public function index()
     {
+        $regModel = new RegistrationModel();
         // Ambil status online/offline
         $settings = $this->settingsModel->first();
-        $onlineAktif  = $settings['online'] ?? 0;
-        $offlineAktif = $settings['offline'] ?? 0;
+        $onlineAktif  = $settings['online_aktif'] ?? 0;
+        $offlineAktif = $settings['offline_aktif'] ?? 0;
+
+        // Cek jumlah kuota offline
+        $offlineCount = $regModel->where('sesi', 'Offline')->countAllResults();
+        $offlineFull = ($offlineCount >= 45);
 
         return view('seminar/index', [
             'onlineAktif'  => $onlineAktif,
-            'offlineAktif' => $offlineAktif
+            'offlineAktif' => $offlineAktif,
+            'offlineFull'  => $offlineFull
         ]);
     }
 
@@ -39,6 +45,14 @@ class Pendaftaran extends BaseController
             'sesi'  => $this->request->getPost('sesi'),
             'email' => $this->request->getPost('email'),
         ];
+
+        // Safeguard for Offline limit
+        if ($data['sesi'] === 'Offline') {
+            $offlineCount = $model->where('sesi', 'Offline')->countAllResults();
+            if ($offlineCount >= 45) {
+                return redirect()->back()->with('error', 'Mohon maaf, kuota Offline sudah penuh. Silakan pilih sesi Online.');
+            }
+        }
 
         // 1️⃣ Simpan data
         $model->insert($data);

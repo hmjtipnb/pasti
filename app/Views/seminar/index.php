@@ -114,7 +114,9 @@ $offlineAktif = $offlineAktif ?? 0;
                    focus:ring-2 focus:ring-[#0D87B0] transition">
         <option value="">Pilih Sesi</option>
         <?php if($offlineAktif): ?>
-            <option value="Offline">Offline</option>
+            <option value="Offline" <?= ($offlineFull ?? false) ? 'disabled class="bg-gray-100 text-gray-400"' : '' ?>>
+                Offline <?= ($offlineFull ?? false) ? '(Slot Penuh)' : '' ?>
+            </option>
         <?php endif; ?>
         <?php if($onlineAktif): ?>
             <option value="Online">Online</option>
