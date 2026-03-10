@@ -53,13 +53,13 @@ class Users extends BaseController
         return view('admin/peserta/index', $data);
     }
 
-    public function delete($id)
+    public function delete($kode)
     {
         if (!session()->get('admin_logged_in')) {
             return redirect()->to(base_url('admin/login'));
         }
 
-        $this->registrationModel->delete($id);
+        $this->registrationModel->where('kode_pendaftaran', $kode)->delete();
         return redirect()->back()->with('success', 'Data peserta berhasil dihapus');
     }
 

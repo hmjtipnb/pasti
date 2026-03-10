@@ -33,38 +33,32 @@
 <br>
     <table id="usersTable" class="min-w-full divide-y divide-gray-200">
         <thead class="bg-[#00345e] text-white">
-            <tr>
-                <th class="px-6 py-3 text-left">No</th>
+            <tr> 
                 <th class="px-6 py-3 text-left">Kode</th>
                 <th class="px-6 py-3 text-left">Nama</th>
                 <th class="px-6 py-3 text-left">NIM</th>
                 <th class="px-6 py-3 text-left">Kelas</th>
                 <th class="px-6 py-3 text-left">Prodi</th>
-                <th class="px-6 py-3 text-left">Telp</th>
-                <th class="px-6 py-3 text-left">Email</th>
-                <th class="px-6 py-3 text-left">Sesi</th>
-                <th class="px-6 py-3 text-left">Tanggal Daftar</th>
+                <th class="px-6 py-3 text-left">Telp</th> 
+                <th class="px-6 py-3 text-left">Sesi</th> 
                 <th class="px-6 py-3 text-left">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
             <?php $i = 1; foreach($users as $user): ?>
             <tr class="hover:bg-gray-100 transition">
-                <td class="px-6 py-3"><?= $i++ ?></td>
                 <td class="px-6 py-3"><?= esc($user['kode_pendaftaran']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['nama']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['nim']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['kelas']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['prodi']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['telp']) ?></td>
-                <td class="px-6 py-3"><?= esc($user['email']) ?></td>
-              <td class="px-6 py-3">
-    <span class="<?= $user['sesi'] === 'Offline' ? 'bg-[#f97316] text-white px-2 py-1 rounded-full' : 'bg-blue-200 text-blue-800 px-2 py-1 rounded-full' ?>">
-        <?= esc($user['sesi']) ?>
-    </span>
-</td>
+                <td class="px-6 py-3">
+                    <span class="<?= $user['sesi'] === 'Offline' ? 'bg-[#f97316] text-white px-2 py-1 rounded-full' : 'bg-blue-200 text-blue-800 px-2 py-1 rounded-full' ?>">
+                        <?= esc($user['sesi']) ?>
+                    </span>
+                </td>
 
-                <td class="px-6 py-3"><?= esc($user['created_at']) ?></td>
                 <td class="px-6 py-3 flex gap-2">
                     <!-- Edit Button (Session Only) -->
                     <button onclick="editSesi('<?= $user['id'] ?>', '<?= $user['sesi'] ?>')" 
@@ -72,7 +66,7 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                     <!-- Delete Button -->
-                    <a href="<?= base_url('admin/users/delete/'.$user['id']) ?>" 
+                    <a href="<?= base_url('admin/users/delete/'.$user['kode_pendaftaran']) ?>" 
                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
                        class="bg-red-600 hover:bg-red-700 text-white p-2 rounded transition">
                         <i class="fa-solid fa-trash"></i>
@@ -124,7 +118,7 @@
     if (filter) {
         const rows = document.querySelectorAll('#usersTable tbody tr');
         rows.forEach(row => {
-            const sesi = row.children[8].innerText.trim();
+            const sesi = row.children[6].innerText.trim();
             if (filter === 'online' && sesi !== 'Online') row.style.display = 'none';
             if (filter === 'offline' && sesi !== 'Offline') row.style.display = 'none';
         });

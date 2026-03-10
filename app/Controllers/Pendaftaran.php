@@ -18,8 +18,8 @@ class Pendaftaran extends BaseController
         $regModel = new RegistrationModel();
         // Ambil status online/offline
         $settings = $this->settingsModel->first();
-        $onlineAktif  = $settings['online_aktif'] ?? 0;
-        $offlineAktif = $settings['offline_aktif'] ?? 0;
+        $onlineAktif  = $settings['online'] ?? 0;
+        $offlineAktif = $settings['offline'] ?? 0;
 
         // Cek jumlah kuota offline
         $offlineCount = $regModel->where('sesi', 'Offline')->countAllResults();

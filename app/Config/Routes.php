@@ -29,9 +29,7 @@ $routes->group('admin', function($routes) {
 
 
 
-$routes->group('admin', function($routes){
-    $routes->get('peserta', 'Admin\Users::index'); 
-});
+
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($routes) {
 
@@ -51,11 +49,10 @@ $routes->group('pendaftaran', function ($routes) {
 
 $routes->group('admin', function($routes) {
     $routes->get('peserta', 'Admin\Users::index');
-    $routes->get('peserta/absensi', 'Admin\Users::absensi'); // route untuk absensi
-
-});
-
-$routes->group('admin', function($routes) {
+    $routes->get('peserta/absensi', 'Admin\Users::absensi');
+    $routes->get('users/toggleSesi/(:num)', 'Admin\Users::toggleSesi/$1');
+    $routes->get('users/delete/(:any)', 'Admin\Users::delete/$1');
+    $routes->post('users/updateSesi', 'Admin\Users::updateSesi');
     $routes->post('peserta/toggleSesi/(:num)', 'Admin\Users::toggleSesi/$1');
 });
 
@@ -79,12 +76,6 @@ $routes->group('seminar', function($routes) {
     $routes->get('absensi', 'Seminar\Absensi::index'); // untuk menampilkan halaman absensi
     $routes->post('absensi/store', 'Seminar\Absensi::store'); // untuk submit absensi
 });
-
-
-// Absensi
-$routes->get('admin/peserta', 'Admin\Users::index');
-$routes->get('admin/peserta/absensi', 'Admin\Users::absensi');
-$routes->get('admin/users/toggleSesi/(:num)', 'Admin\Users::toggleSesi/$1');
 
 // SESI SEMINAR SETTING
 $routes->group('admin', function ($routes) {
