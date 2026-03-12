@@ -30,12 +30,17 @@ class Users extends BaseController
         }
 
         $filter = $this->request->getGet('filter');
+        $search = $this->request->getGet('search');
         $query = $this->registrationModel->orderBy('created_at', 'DESC');
 
         if ($filter == 'online') {
             $query->where('sesi', 'Online');
         } elseif ($filter == 'offline') {
             $query->where('sesi', 'Offline');
+        }
+
+        if ($search) {
+            $query->like('nama', $search);
         }
 
         // Ambil status setting pendaftaran untuk tombol toggle
@@ -48,6 +53,8 @@ class Users extends BaseController
             'activeMenu' => 'peserta',
             'onlineAktif'  => $regSettings['online'] ?? 0,
             'offlineAktif' => $regSettings['offline'] ?? 0,
+            'filter'       => $filter,
+            'search'       => $search,
         ];
 
         return view('admin/peserta/index', $data);

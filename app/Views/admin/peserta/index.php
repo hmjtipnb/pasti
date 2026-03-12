@@ -23,11 +23,31 @@
         </button>
     </form>
 
-    <!-- FILTER -->
-    <div class="ml-auto flex gap-2">
-        <a href="<?= base_url('admin/users') ?>" class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 font-semibold">Semua</a>
-        <a href="<?= base_url('admin/users?filter=online') ?>" class="px-4 py-2 rounded bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold">Online</a>
-        <a href="<?= base_url('admin/users?filter=offline') ?>" class="px-4 py-2 rounded bg-orange-100 text-orange-700 hover:bg-orange-200 font-semibold">Offline</a>
+    <!-- FILTER & SEARCH -->
+    <div class="ml-auto flex gap-3 items-center">
+        <!-- Search Form -->
+        <form action="<?= base_url('admin/peserta') ?>" method="get" class="flex gap-2">
+            <input type="hidden" name="filter" value="<?= esc($filter) ?>">
+            <div class="relative">
+                <input type="text" name="search" value="<?= esc($search) ?>" 
+                       placeholder="Cari nama peserta..." 
+                       class="pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#00345e] outline-none">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+            <button type="submit" class="bg-[#00345e] text-white px-4 py-2 rounded-xl hover:bg-blue-800 transition">
+                Cari
+            </button>
+        </form>
+
+        <div class="flex gap-2">
+            <a href="<?= base_url('admin/peserta') ?>" class="px-3 py-2 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 font-semibold text-sm transition">Semua</a>
+            <a href="<?= base_url('admin/peserta?filter=online') . ($search ? '&search='.urlencode($search) : '') ?>" 
+               class="px-3 py-2 rounded-xl bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold text-sm transition">Online</a>
+            <a href="<?= base_url('admin/peserta?filter=offline') . ($search ? '&search='.urlencode($search) : '') ?>" 
+               class="px-3 py-2 rounded-xl bg-orange-100 text-orange-700 hover:bg-orange-200 font-semibold text-sm transition">Offline</a>
+        </div>
     </div>
 </div>
 <br>
@@ -111,18 +131,6 @@
         document.getElementById('editSesiModal').classList.add('hidden');
     }
 
-    // Filter Logic in JS (Optional if server-side filtering is implemented)
-    // Here we'll implement simple row hiding for instant filter
-    const urlParams = new URLSearchParams(window.location.search);
-    const filter = urlParams.get('filter');
-    if (filter) {
-        const rows = document.querySelectorAll('#usersTable tbody tr');
-        rows.forEach(row => {
-            const sesi = row.children[6].innerText.trim();
-            if (filter === 'online' && sesi !== 'Online') row.style.display = 'none';
-            if (filter === 'offline' && sesi !== 'Offline') row.style.display = 'none';
-        });
-    }
 </script>
 
 <!-- Floating Download Button -->
