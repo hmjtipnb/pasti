@@ -62,6 +62,7 @@ $settings = $settingsModel->first();
 // Default aktif/inaktif
 $sesi1Aktif = $settings['sesi_1_aktif'] ?? 0;
 $sesi2Aktif = $settings['sesi_2_aktif'] ?? 0;
+$sesi3Aktif = $settings['sesi_3_aktif'] ?? 0;
 ?>
 
 <!-- Sesi -->
@@ -78,6 +79,10 @@ $sesi2Aktif = $settings['sesi_2_aktif'] ?? 0;
 
         <option value="2" <?= $sesi2Aktif ? '' : 'disabled class="bg-gray-100 text-gray-400"' ?>>
             Sesi 2 <?= $sesi2Aktif ? '' : '(Tidak Aktif)' ?>
+        </option>
+
+        <option value="3" <?= $sesi3Aktif ? '' : 'disabled class="bg-gray-100 text-gray-400"' ?>>
+            Sesi 3 <?= $sesi3Aktif ? '' : '(Tidak Aktif)' ?>
         </option>
     </select>
 </div>

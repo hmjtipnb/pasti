@@ -3,7 +3,6 @@
 <br>
 <?= $this->section('content') ?>
 
-
 <div class="overflow-x-auto bg-white rounded-2xl shadow-lg p-4">
 <div class="flex gap-4">
     <!-- ONLINE -->
@@ -23,46 +22,116 @@
             <?= ($offlineAktif ?? 0) == 1 ? 'Offline Dibuka' : 'Offline Ditutup' ?>
         </button>
     </form>
+
+    <!-- FILTER & SEARCH -->
+    <div class="ml-auto flex gap-3 items-center">
+        <!-- Search Form -->
+        <form action="<?= base_url('admin/peserta') ?>" method="get" class="flex gap-2">
+            <input type="hidden" name="filter" value="<?= esc($filter) ?>">
+            <div class="relative">
+                <input type="text" name="search" value="<?= esc($search) ?>" 
+                       placeholder="Cari nama peserta..." 
+                       class="pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#00345e] outline-none">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+            <button type="submit" class="bg-[#00345e] text-white px-4 py-2 rounded-xl hover:bg-blue-800 transition">
+                Cari
+            </button>
+        </form>
+
+        <div class="flex gap-2">
+            <a href="<?= base_url('admin/peserta') ?>" class="px-3 py-2 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 font-semibold text-sm transition">Semua</a>
+            <a href="<?= base_url('admin/peserta?filter=online') . ($search ? '&search='.urlencode($search) : '') ?>" 
+               class="px-3 py-2 rounded-xl bg-blue-100 text-blue-700 hover:bg-blue-200 font-semibold text-sm transition">Online</a>
+            <a href="<?= base_url('admin/peserta?filter=offline') . ($search ? '&search='.urlencode($search) : '') ?>" 
+               class="px-3 py-2 rounded-xl bg-orange-100 text-orange-700 hover:bg-orange-200 font-semibold text-sm transition">Offline</a>
+        </div>
+    </div>
 </div>
 <br>
     <table id="usersTable" class="min-w-full divide-y divide-gray-200">
         <thead class="bg-[#00345e] text-white">
-            <tr>
-                <th class="px-6 py-3 text-left">No</th>
+            <tr> 
                 <th class="px-6 py-3 text-left">Kode</th>
                 <th class="px-6 py-3 text-left">Nama</th>
                 <th class="px-6 py-3 text-left">NIM</th>
                 <th class="px-6 py-3 text-left">Kelas</th>
                 <th class="px-6 py-3 text-left">Prodi</th>
-                <th class="px-6 py-3 text-left">Telp</th>
-                <th class="px-6 py-3 text-left">Email</th>
-                <th class="px-6 py-3 text-left">Sesi</th>
-                <th class="px-6 py-3 text-left">Tanggal Daftar</th>
+                <th class="px-6 py-3 text-left">Telp</th> 
+                <th class="px-6 py-3 text-left">Sesi</th> 
+                <th class="px-6 py-3 text-left">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
             <?php $i = 1; foreach($users as $user): ?>
             <tr class="hover:bg-gray-100 transition">
-                <td class="px-6 py-3"><?= $i++ ?></td>
                 <td class="px-6 py-3"><?= esc($user['kode_pendaftaran']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['nama']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['nim']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['kelas']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['prodi']) ?></td>
                 <td class="px-6 py-3"><?= esc($user['telp']) ?></td>
-                <td class="px-6 py-3"><?= esc($user['email']) ?></td>
-              <td class="px-6 py-3">
-    <span class="<?= $user['sesi'] === 'Offline' ? 'bg-[#f97316] text-white px-2 py-1 rounded-full' : 'bg-blue-200 text-blue-800 px-2 py-1 rounded-full' ?>">
-        <?= esc($user['sesi']) ?>
-    </span>
-</td>
+                <td class="px-6 py-3">
+                    <span class="<?= $user['sesi'] === 'Offline' ? 'bg-[#f97316] text-white px-2 py-1 rounded-full' : 'bg-blue-200 text-blue-800 px-2 py-1 rounded-full' ?>">
+                        <?= esc($user['sesi']) ?>
+                    </span>
+                </td>
 
-                <td class="px-6 py-3"><?= esc($user['created_at']) ?></td>
+                <td class="px-6 py-3 flex gap-2">
+                    <!-- Edit Button (Session Only) -->
+                    <button onclick="editSesi('<?= $user['id'] ?>', '<?= $user['sesi'] ?>')" 
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded transition">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <!-- Delete Button -->
+                    <a href="<?= base_url('admin/users/delete/'.$user['kode_pendaftaran']) ?>" 
+                       onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                       class="bg-red-600 hover:bg-red-700 text-white p-2 rounded transition">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
+
+<!-- Modal Edit Sesi -->
+<div id="editSesiModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl animate-fade-in-up">
+        <h3 class="text-xl font-bold mb-4 text-[#00345e]">Edit Sesi Peserta</h3>
+        <form action="<?= base_url('admin/users/updateSesi') ?>" method="post">
+            <?= csrf_field() ?>
+            <input type="hidden" name="id" id="editUserId">
+            <div class="mb-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Pilih Sesi</label>
+                <select name="sesi" id="editSesiSelect" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition font-semibold">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-[#00345e] text-white hover:bg-blue-800 transition font-semibold">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function editSesi(id, currentSesi) {
+        document.getElementById('editUserId').value = id;
+        document.getElementById('editSesiSelect').value = currentSesi;
+        document.getElementById('editSesiModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('editSesiModal').classList.add('hidden');
+    }
+
+</script>
 
 <!-- Floating Download Button -->
 <button id="downloadExcel"

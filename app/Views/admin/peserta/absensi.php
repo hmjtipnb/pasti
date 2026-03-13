@@ -29,7 +29,7 @@
         </div>
 
         <!-- Sesi 2 -->
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between mb-4">
             <span class="font-medium text-gray-600">Sesi 2</span>
 
             <a href="<?= base_url('admin/users/toggleSesi/2') ?>"
@@ -38,6 +38,19 @@
                     ? 'bg-green-600 hover:bg-green-700' 
                     : 'bg-red-600 hover:bg-red-700' ?>">
                 <?= $sesi2Aktif ? '🟢 Aktif' : '🔴 Nonaktif' ?>
+            </a>
+        </div>
+
+        <!-- Sesi 3 -->
+        <div class="flex items-center justify-between">
+            <span class="font-medium text-gray-600">Sesi 3</span>
+
+            <a href="<?= base_url('admin/users/toggleSesi/3') ?>"
+               class="px-5 py-2 rounded-full text-sm font-semibold text-white transition shadow
+               <?= $sesi3Aktif 
+                    ? 'bg-green-600 hover:bg-green-700' 
+                    : 'bg-red-600 hover:bg-red-700' ?>">
+                <?= $sesi3Aktif ? '🟢 Aktif' : '🔴 Nonaktif' ?>
             </a>
         </div>
     </div>
@@ -69,7 +82,7 @@
                         <span class="px-3 py-1 text-xs font-semibold rounded-full
                             <?= $a['sesi'] == 1 
                                 ? 'bg-purple-600 text-white' 
-                                : 'bg-blue-500 text-white' ?>">
+                                : ($a['sesi'] == 2 ? 'bg-blue-500 text-white' : 'bg-orange-500 text-white') ?>">
                             Sesi <?= esc($a['sesi']) ?>
                         </span>
                     </td>

@@ -29,15 +29,64 @@ class Users extends BaseController
             return redirect()->to(base_url('admin/login'));
         }
 
+        $filter = $this->request->getGet('filter');
+        $search = $this->request->getGet('search');
+        $query = $this->registrationModel->orderBy('created_at', 'DESC');
+
+        if ($filter == 'online') {
+            $query->where('sesi', 'Online');
+        } elseif ($filter == 'offline') {
+            $query->where('sesi', 'Offline');
+        }
+
+        if ($search) {
+            $query->like('nama', $search);
+        }
+
+        // Ambil status setting pendaftaran untuk tombol toggle
+        $settingsModel = new \App\Models\Seminar\PendaftaranSettingsModel();
+        $regSettings = $settingsModel->first();
+
+        // Jika belum ada data setting, buat default
+        if (!$regSettings) {
+             $settingsModel->insert(['online' => 0, 'offline' => 0]);
+             $regSettings = $settingsModel->first();
+        }
+
         $data = [
             'title'      => 'Daftar Peserta',
-            'users'      => $this->registrationModel
-                                    ->orderBy('created_at', 'DESC')
-                                    ->findAll(),
-            'activeMenu' => 'peserta'
+            'users'      => $query->findAll(),
+            'activeMenu' => 'peserta',
+            'onlineAktif'  => $regSettings['online'] ?? 0,
+            'offlineAktif' => $regSettings['offline'] ?? 0,
+            'filter'       => $filter ?? '',
+            'search'       => $search ?? '',
         ];
 
         return view('admin/peserta/index', $data);
+    }
+
+    public function delete($kode)
+    {
+        if (!session()->get('admin_logged_in')) {
+            return redirect()->to(base_url('admin/login'));
+        }
+
+        $this->registrationModel->where('kode_pendaftaran', $kode)->delete();
+        return redirect()->back()->with('success', 'Data peserta berhasil dihapus');
+    }
+
+    public function updateSesi()
+    {
+        if (!session()->get('admin_logged_in')) {
+            return redirect()->to(base_url('admin/login'));
+        }
+
+        $id = $this->request->getPost('id');
+        $sesi = $this->request->getPost('sesi');
+
+        $this->registrationModel->update($id, ['sesi' => $sesi]);
+        return redirect()->back()->with('success', 'Sesi peserta berhasil diperbarui');
     }
 
     // =========================
@@ -57,6 +106,7 @@ class Users extends BaseController
             $this->settingsModel->insert([
                 'sesi_1_aktif' => 0,
                 'sesi_2_aktif' => 0,
+                'sesi_3_aktif' => 0,
             ]);
             $settings = $this->settingsModel->first();
         }
@@ -67,8 +117,9 @@ class Users extends BaseController
                                     ->orderBy('created_at', 'DESC')
                                     ->findAll(),
             'activeMenu'   => 'absensi',
-            'sesi1Aktif'   => $settings['sesi_1_aktif'],
-            'sesi2Aktif'   => $settings['sesi_2_aktif'],
+            'sesi1Aktif'   => $settings['sesi_1_aktif'] ?? 0,
+            'sesi2Aktif'   => $settings['sesi_2_aktif'] ?? 0,
+            'sesi3Aktif'   => $settings['sesi_3_aktif'] ?? 0,
         ];
 
         return view('admin/peserta/absensi', $data);
@@ -96,6 +147,10 @@ class Users extends BaseController
         } elseif ($sesi == 2) {
             $this->settingsModel->update($settings['id'], [
                 'sesi_2_aktif' => $settings['sesi_2_aktif'] ? 0 : 1
+            ]);
+        } elseif ($sesi == 3) {
+            $this->settingsModel->update($settings['id'], [
+                'sesi_3_aktif' => $settings['sesi_3_aktif'] ? 0 : 1
             ]);
         }
 
