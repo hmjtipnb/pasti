@@ -47,14 +47,20 @@ class Users extends BaseController
         $settingsModel = new \App\Models\Seminar\PendaftaranSettingsModel();
         $regSettings = $settingsModel->first();
 
+        // Jika belum ada data setting, buat default
+        if (!$regSettings) {
+             $settingsModel->insert(['online' => 0, 'offline' => 0]);
+             $regSettings = $settingsModel->first();
+        }
+
         $data = [
             'title'      => 'Daftar Peserta',
             'users'      => $query->findAll(),
             'activeMenu' => 'peserta',
             'onlineAktif'  => $regSettings['online'] ?? 0,
             'offlineAktif' => $regSettings['offline'] ?? 0,
-            'filter'       => $filter,
-            'search'       => $search,
+            'filter'       => $filter ?? '',
+            'search'       => $search ?? '',
         ];
 
         return view('admin/peserta/index', $data);
@@ -111,9 +117,9 @@ class Users extends BaseController
                                     ->orderBy('created_at', 'DESC')
                                     ->findAll(),
             'activeMenu'   => 'absensi',
-            'sesi1Aktif'   => $settings['sesi_1_aktif'],
-            'sesi2Aktif'   => $settings['sesi_2_aktif'],
-            'sesi3Aktif'   => $settings['sesi_3_aktif'],
+            'sesi1Aktif'   => $settings['sesi_1_aktif'] ?? 0,
+            'sesi2Aktif'   => $settings['sesi_2_aktif'] ?? 0,
+            'sesi3Aktif'   => $settings['sesi_3_aktif'] ?? 0,
         ];
 
         return view('admin/peserta/absensi', $data);
