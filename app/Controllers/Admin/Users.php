@@ -98,10 +98,23 @@ class Users extends BaseController
             return redirect()->to(base_url('admin/login'));
         }
 
-        // Ambil pengaturan sesi (anggap hanya 1 row)
+        // Ambil filter dari request
+        $sesiFilter = $this->request->getGet('sesi');
+        $tahunFilter = $this->request->getGet('tahun');
+
+        $query = $this->absensiModel->orderBy('created_at', 'DESC');
+
+        if ($sesiFilter) {
+            $query->where('sesi', $sesiFilter);
+        }
+
+        if ($tahunFilter) {
+            $query->where('YEAR(created_at)', $tahunFilter);
+        }
+
+        // Ambil pengaturan sesi (untuk toggle di UI)
         $settings = $this->settingsModel->first();
 
-        // Jika belum ada data setting, buat default
         if (!$settings) {
             $this->settingsModel->insert([
                 'sesi_1_aktif' => 0,
@@ -113,13 +126,13 @@ class Users extends BaseController
 
         $data = [
             'title'        => 'Daftar Absensi',
-            'absensi'      => $this->absensiModel
-                                    ->orderBy('created_at', 'DESC')
-                                    ->findAll(),
+            'absensi'      => $query->findAll(),
             'activeMenu'   => 'absensi',
             'sesi1Aktif'   => $settings['sesi_1_aktif'] ?? 0,
             'sesi2Aktif'   => $settings['sesi_2_aktif'] ?? 0,
             'sesi3Aktif'   => $settings['sesi_3_aktif'] ?? 0,
+            'selectedSesi'  => $sesiFilter,
+            'selectedTahun' => $tahunFilter,
         ];
 
         return view('admin/peserta/absensi', $data);

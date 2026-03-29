@@ -47,8 +47,13 @@ class Anggota extends BaseController
             'created_at' => date('Y-m-d H:i:s'),
         ];
 
-        $this->anggotaModel->insert($data);
-        $insertId = $this->anggotaModel->getInsertID();
+        // insert() returns the primary key ID if it's auto-incrementing
+        $insertId = $this->anggotaModel->insert($data);
+
+        if (!$insertId) {
+            // Jika gagal insert, return error
+            return redirect()->back()->with('error', 'Gagal memproses pendaftaran. Silakan coba lagi.');
+        }
 
         // 3️⃣ GENERATE KODE ANGGOTA
         $kodeAnggota = 'PASTI-A-' . str_pad($insertId, 5, '0', STR_PAD_LEFT);

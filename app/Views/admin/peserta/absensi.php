@@ -10,53 +10,93 @@
     </div>
 
     <!-- CARD PENGATURAN SESI -->
-    <div class="bg-white rounded-2xl shadow-md p-6 mb-6 max-w-xl">
-        <h3 class="text-lg font-semibold mb-4 text-gray-700">
-            Pengaturan Sesi Absensi
-        </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h3 class="text-lg font-bold mb-5 text-[#00345e] flex items-center gap-2">
+                <i class="fa-solid fa-toggle-on"></i>
+                Status Sesi Absensi
+            </h3>
 
-        <!-- Sesi 1 -->
-        <div class="flex items-center justify-between mb-4">
-            <span class="font-medium text-gray-600">Sesi 1</span>
+            <div class="space-y-4">
+                <!-- Sesi 1 -->
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                    <span class="font-semibold text-gray-700">Sesi 1</span>
+                    <a href="<?= base_url('admin/users/toggleSesi/1') ?>"
+                       class="px-5 py-2 rounded-lg text-sm font-bold shadow-sm transition
+                       <?= $sesi1Aktif ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?>">
+                        <?= $sesi1Aktif ? 'AKTIF' : 'NONAKTIF' ?>
+                    </a>
+                </div>
 
-            <a href="<?= base_url('admin/users/toggleSesi/1') ?>"
-               class="px-5 py-2 rounded-full text-sm font-semibold text-white transition shadow
-               <?= $sesi1Aktif 
-                    ? 'bg-green-600 hover:bg-green-700' 
-                    : 'bg-red-600 hover:bg-red-700' ?>">
-                <?= $sesi1Aktif ? '🟢 Aktif' : '🔴 Nonaktif' ?>
-            </a>
+                <!-- Sesi 2 -->
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                    <span class="font-semibold text-gray-700">Sesi 2</span>
+                    <a href="<?= base_url('admin/users/toggleSesi/2') ?>"
+                       class="px-5 py-2 rounded-lg text-sm font-bold shadow-sm transition
+                       <?= $sesi2Aktif ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?>">
+                        <?= $sesi2Aktif ? 'AKTIF' : 'NONAKTIF' ?>
+                    </a>
+                </div>
+
+                <!-- Sesi 3 -->
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                    <span class="font-semibold text-gray-700">Sesi 3</span>
+                    <a href="<?= base_url('admin/users/toggleSesi/3') ?>"
+                       class="px-5 py-2 rounded-lg text-sm font-bold shadow-sm transition
+                       <?= $sesi3Aktif ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?>">
+                        <?= $sesi3Aktif ? 'AKTIF' : 'NONAKTIF' ?>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <!-- Sesi 2 -->
-        <div class="flex items-center justify-between mb-4">
-            <span class="font-medium text-gray-600">Sesi 2</span>
+        <!-- FILTER FORM -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-full">
+            <h3 class="text-lg font-bold mb-5 text-[#00345e] flex items-center gap-2">
+                <i class="fa-solid fa-filter"></i>
+                Filter Data
+            </h3>
 
-            <a href="<?= base_url('admin/users/toggleSesi/2') ?>"
-               class="px-5 py-2 rounded-full text-sm font-semibold text-white transition shadow
-               <?= $sesi2Aktif 
-                    ? 'bg-green-600 hover:bg-green-700' 
-                    : 'bg-red-600 hover:bg-red-700' ?>">
-                <?= $sesi2Aktif ? '🟢 Aktif' : '🔴 Nonaktif' ?>
-            </a>
-        </div>
+            <form action="<?= base_url('admin/peserta/absensi') ?>" method="get" class="flex flex-col gap-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Pilih Sesi</label>
+                        <select name="sesi" class="w-full bg-gray-50 border-gray-200 rounded-xl text-sm font-medium focus:ring-[#00345e]">
+                            <option value="">Semua Sesi</option>
+                            <option value="1" <?= ($selectedSesi == '1') ? 'selected' : '' ?>>Sesi 1</option>
+                            <option value="2" <?= ($selectedSesi == '2') ? 'selected' : '' ?>>Sesi 2</option>
+                            <option value="3" <?= ($selectedSesi == '3') ? 'selected' : '' ?>>Sesi 3</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Pilih Tahun</label>
+                        <select name="tahun" class="w-full bg-gray-50 border-gray-200 rounded-xl text-sm font-medium focus:ring-[#00345e]">
+                            <option value="">Semua Tahun</option>
+                            <?php 
+                            $now = date('Y');
+                            for($y = $now; $y >= 2024; $y--): ?>
+                                <option value="<?= $y ?>" <?= ($selectedTahun == $y) ? 'selected' : '' ?>><?= $y ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                </div>
 
-        <!-- Sesi 3 -->
-        <div class="flex items-center justify-between">
-            <span class="font-medium text-gray-600">Sesi 3</span>
-
-            <a href="<?= base_url('admin/users/toggleSesi/3') ?>"
-               class="px-5 py-2 rounded-full text-sm font-semibold text-white transition shadow
-               <?= $sesi3Aktif 
-                    ? 'bg-green-600 hover:bg-green-700' 
-                    : 'bg-red-600 hover:bg-red-700' ?>">
-                <?= $sesi3Aktif ? '🟢 Aktif' : '🔴 Nonaktif' ?>
-            </a>
+                <div class="flex gap-2">
+                    <button type="submit" class="flex-1 bg-[#00345e] text-white py-3 rounded-xl font-bold hover:bg-blue-800 transition shadow-md">
+                        Terapkan Filter
+                    </button>
+                    <?php if($selectedSesi || $selectedTahun): ?>
+                        <a href="<?= base_url('admin/peserta/absensi') ?>" class="bg-gray-100 text-gray-600 px-4 py-3 rounded-xl font-bold hover:bg-gray-200 transition">
+                            Reset
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </form>
         </div>
     </div>
 
     <!-- TABLE ABSENSI -->
-    <div class="overflow-x-auto bg-white rounded-2xl shadow-md p-4">
+    <div class="overflow-x-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
 
         <table id="absensiTable" class="min-w-full text-sm text-gray-700">
             <thead class="bg-[#00345e] text-white uppercase text-xs tracking-wider">

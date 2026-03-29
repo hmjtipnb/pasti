@@ -51,12 +51,16 @@ class Absensi extends BaseController
             $fotoName = $nim . '_sesi' . $sesi . '.' . $foto->getExtension();
             $foto->move($uploadPath, $fotoName);
 
-            $model->insert([
+            $insertId = $model->insert([
                 'nim' => $nim,
                 'nama' => $nama,
                 'sesi' => $sesi,
                 'foto' => $fotoName
             ]);
+
+            if (!$insertId) {
+                return redirect()->back()->with('error', 'Gagal mencatat absensi ke database.');
+            }
 
             return redirect()->back()->with('success', 'Absensi berhasil dicatat!');
         }

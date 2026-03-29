@@ -55,8 +55,11 @@ class Pendaftaran extends BaseController
         }
 
         // 1️⃣ Simpan data
-        $model->insert($data);
-        $insertId = $model->getInsertID();
+        $insertId = $model->insert($data);
+
+        if (!$insertId) {
+            return redirect()->back()->with('error', 'Gagal memproses pendaftaran seminar. Silakan coba lagi.');
+        }
 
         // 2️⃣ Generate ID PASTI
         $pastiId = 'PASTI-' . str_pad($insertId, 5, '0', STR_PAD_LEFT);
