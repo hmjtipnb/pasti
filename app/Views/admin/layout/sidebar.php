@@ -31,9 +31,16 @@
                 <i class="fa-solid fa-users w-5 text-center"></i>
                 <span>Daftar Peserta</span>
             </div>
-            <span class="text-[10px] bg-orange-500 text-white px-2 py-0.5 rounded-full">
-                NEW
-            </span>
+        </a>
+
+        <!-- Daftar Anggota -->
+        <a href="<?= base_url('admin/anggota') ?>"
+           class="flex items-center justify-between gap-4 px-4 py-3 rounded-xl font-medium transition
+           <?= (isset($activeMenu) && $activeMenu === 'anggota') ? 'bg-white text-[#00345e] shadow-inner' : 'text-gray-200 hover:bg-white/10' ?>">
+            <div class="flex items-center gap-4">
+                <i class="fa-solid fa-id-card w-5 text-center"></i>
+                <span>Daftar Anggota</span>
+            </div>
         </a>
 
 <!-- Daftar Absensi -->

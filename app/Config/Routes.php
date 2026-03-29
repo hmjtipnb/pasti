@@ -85,9 +85,15 @@ $routes->group('admin', function ($routes) {
 
 
 
-// RIVEW ADMIN Show
+// REVIEW ADMIN Show
 $routes->group('admin', function ($routes) {
     $routes->get('review', 'Admin\ReviewController::index');
     $routes->post('review/delete/(:num)', 'Admin\ReviewController::delete/$1');
+});
+
+// ANGGOTA ADMIN
+$routes->group('admin', function ($routes) {
+    $routes->get('anggota', 'Admin\Anggota::index');
+    $routes->post('anggota/delete/(:num)', 'Admin\Anggota::delete/$1');
 });
 
